@@ -3,11 +3,13 @@ require "set"
 xs = $<.read.split("\n").map(&:to_i).to_set
 
 xs.each do |a|
-  p a * (2020 - a) if xs.include?(2020 - a)
+  b = 2020 - a
+  p a * b if xs.include?(b)
 end
 
 xs.each do |a|
   xs.each do |b|
-    p a * b * (2020 - a - b) if xs.include?(2020 - a - b)
+    c = 2020 - a - b
+    p a * b * c if xs.include?(c)
   end
 end
