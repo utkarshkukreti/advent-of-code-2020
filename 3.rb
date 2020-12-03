@@ -7,7 +7,7 @@ go = ->dx, dy {
     x += dx
     y += dy
     x %= grid[0].size
-    break unless grid[y]
+    break if y >= grid.size
     count += 1 if grid[y][x] == "#"
   end
   count
