@@ -3,12 +3,11 @@ grid = $<.read.chomp.split("\n")
 go = ->dx, dy {
   count = 0
   x, y = 0, 0
-  loop do
+  while y < grid.size
+    count += 1 if grid[y][x] == "#"
     x += dx
     y += dy
     x %= grid[0].size
-    break if y >= grid.size
-    count += 1 if grid[y][x] == "#"
   end
   count
 }
