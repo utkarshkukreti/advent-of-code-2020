@@ -8,12 +8,11 @@ run = ->xs {
     case a
     when "acc"
       acc += b
-      pc += 1
     when "jmp"
       pc += b
-    when "nop"
-      pc += 1
+      next
     end
+    pc += 1
   end
 }
 
