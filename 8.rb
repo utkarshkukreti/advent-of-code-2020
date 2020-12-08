@@ -6,11 +6,8 @@ run = ->xs {
     seen[pc] = true
     a, b = xs[pc]
     case a
-    when "acc"
-      acc += b
-    when "jmp"
-      pc += b
-      next
+    when "acc" then acc += b
+    when "jmp" then pc += b; next
     end
     pc += 1
   end
