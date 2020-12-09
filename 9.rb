@@ -14,5 +14,4 @@ p2 = (2..).each do |size|
   end
 end
 
-p p1
-p p2
+p p1, p2
