@@ -7,18 +7,18 @@ step = ->(grid:, part:) do
         xx = x + dx * i
         yy = y + dy * i
         break unless xx >= 0 && yy >= 0 && xx < grid.size && yy < grid[xx].size
-        break grid[xx][yy] if grid[xx][yy] != "."
-      end == "#"
+        break grid[xx][yy] if grid[xx][yy] != :floor
+      end == :taken
     end
   end
 
   grid.map.with_index do |row, x|
     row.map.with_index do |cell, y|
       o = occupied_around.(x, y)
-      if cell == "L" && o == 0
-        "#"
-      elsif cell == "#" && o >= { 1 => 4, 2 => 5 }[part]
-        "L"
+      if cell == :empty && o == 0
+        :taken
+      elsif cell == :taken && o >= { 1 => 4, 2 => 5 }[part]
+        :empty
       else
         cell
       end
@@ -31,10 +31,14 @@ run = ->(grid:, part:) do
     next_grid = step.(grid: grid, part: part)
     break grid if next_grid == grid
     grid = next_grid
-  end.sum { |ys| ys.count("#") }
+  end.sum { |ys| ys.count(:taken) }
 end
 
-grid = $<.read.split("\n").map(&:chars)
+grid = $<.read.split("\n").map do |row|
+  row.chars.map do |char|
+    { "." => :floor, "L" => :empty, "#" => :taken }[char]
+  end
+end
 
 p run.(grid: grid, part: 1)
 p run.(grid: grid, part: 2)
