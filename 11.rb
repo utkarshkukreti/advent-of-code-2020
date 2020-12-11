@@ -1,23 +1,19 @@
 around = [-1, 0, 1].flat_map { |dx| [-1, 0, 1].map { |dy| [dx, dy] } } - [[0, 0]]
 
 step = ->(grid:, part:) do
-  occupied_around = ->x, y do
-    around.count do |dx, dy|
-      ({ 1 => 1..1, 2 => 1.. }[part]).each do |i|
-        xx = x + dx * i
-        yy = y + dy * i
-        break unless xx >= 0 && yy >= 0 && xx < grid.size && yy < grid[xx].size
-        break grid[xx][yy] if grid[xx][yy] != :floor
-      end == :taken
-    end
-  end
-
   grid.map.with_index do |row, x|
     row.map.with_index do |cell, y|
-      o = occupied_around.(x, y)
-      if cell == :empty && o == 0
+      occupied = around.count do |dx, dy|
+        ({ 1 => 1..1, 2 => 1.. }[part]).each do |i|
+          xx = x + dx * i
+          yy = y + dy * i
+          break unless xx >= 0 && yy >= 0 && xx < grid.size && yy < grid[xx].size
+          break grid[xx][yy] if grid[xx][yy] != :floor
+        end == :taken
+      end
+      if cell == :empty && occupied == 0
         :taken
-      elsif cell == :taken && o >= { 1 => 4, 2 => 5 }[part]
+      elsif cell == :taken && occupied >= { 1 => 4, 2 => 5 }[part]
         :empty
       else
         cell
