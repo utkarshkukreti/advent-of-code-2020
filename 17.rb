@@ -10,11 +10,9 @@ run = ->xs, times {
   }
 
   times.times.reduce xs.to_set do |xs, _|
-    xs.flat_map do |x|
-      around.(x).filter_map do |nx|
-        count = around.(nx).count { |x| xs.include?(x) }
-        nx if count == 3 || count == 2 && xs.include?(nx)
-      end
+    xs.flat_map(&around).uniq.filter_map do |nx|
+      count = around.(nx).count { |x| xs.include?(x) }
+      nx if count == 3 || count == 2 && xs.include?(nx)
     end.to_set
   end
 }
